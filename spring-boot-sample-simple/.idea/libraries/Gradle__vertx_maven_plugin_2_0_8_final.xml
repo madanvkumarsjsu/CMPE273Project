@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="Gradle: vertx-maven-plugin-2.0.8-final">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/libs/vertx-maven-plugin-2.0.8-final.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

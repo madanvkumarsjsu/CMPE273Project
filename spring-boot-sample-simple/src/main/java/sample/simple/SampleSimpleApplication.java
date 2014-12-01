@@ -3,9 +3,7 @@ package sample.simple;
 import static org.boon.Boon.puts;
 
 import java.net.URI;
-import java.util.Arrays;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.util.*;
 
 import org.boon.etcd.ClientBuilder;
 import org.boon.etcd.Etcd;
@@ -22,25 +20,31 @@ import org.springframework.context.annotation.Configuration;
 public class SampleSimpleApplication {
 
 	public static void main(String[] args) {
-		ApplicationContext ctx = SpringApplication.run(SampleSimpleApplication.class, args);
-		String[] beanNames = ctx.getBeanDefinitionNames();
-		Arrays.sort(beanNames);
-		for (String beanName : beanNames) {
-			System.out.println(beanName);
-		}
-		final Etcd client = ClientBuilder.builder().hosts(URI.create("http://localhost:4001")).createClient();
+System.out.println(">>>>>>>>>>Inside the main method");
+        ServerUtility su = new ServerUtility();
+        final String hostAddr = su.getHostAddress();
+        final String hostName = su.getHostName();
+        final String portNumber = su.getPortNumber();
 
-		ServerUtility su = new ServerUtility();
-		String hostAddr = su.getHostAddress();
-		String hostName = su.getHostName();
+        ApplicationContext ctx = SpringApplication.run(SampleSimpleApplication.class, args);
+
+
+        final Etcd client = ClientBuilder.builder().hosts(URI.create("http://localhost:4001")).createClient();
+
+        System.out.println(">>>>>>>>>>>>>starting the ttl");
 		Timer timer = new Timer();
 		timer.schedule(new TimerTask() {
-
 			@Override
 			public void run() {
-				Response response = client.setTemp("application","mysampleapplication1" ,20);
-				puts(response);				
-			}
+                System.out.println(new Date());
+                Response response1 = client.createTempDir(hostName, 10);
+				puts(response1);
+                Response response2 = client.set(hostName+"/HostAddress", hostAddr);
+                puts(response2);
+                Response response3 = client.set(hostName+"/PortNumber", portNumber);
+                puts(response3);
+
+            }
 		}, 0, 15000);
 	}
 

@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="Gradle: testtools-2.0.3-final">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/libs/testtools-2.0.3-final.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
