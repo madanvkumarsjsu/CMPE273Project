@@ -8,6 +8,8 @@ import java.util.*;
 import org.boon.etcd.ClientBuilder;
 import org.boon.etcd.Etcd;
 import org.boon.etcd.Response;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.ApplicationContext;
@@ -27,8 +29,6 @@ System.out.println(">>>>>>>>>>Inside the main method");
         final String portNumber = su.getPortNumber();
 
         ApplicationContext ctx = SpringApplication.run(SampleSimpleApplication.class, args);
-
-
         final Etcd client = ClientBuilder.builder().hosts(URI.create("http://localhost:4001")).createClient();
 
         System.out.println(">>>>>>>>>>>>>starting the ttl");
@@ -37,13 +37,20 @@ System.out.println(">>>>>>>>>>Inside the main method");
 			@Override
 			public void run() {
                 System.out.println(new Date());
-                Response response1 = client.createTempDir(hostName, 10);
-				puts(response1);
-                Response response2 = client.set(hostName+"/HostAddress", hostAddr);
-                puts(response2);
-                Response response3 = client.set(hostName+"/PortNumber", portNumber);
-                puts(response3);
+                JSONObject jo = new JSONObject();
+                String value = null;
+                try {
+                    jo.put("ip address", hostAddr);
+                    jo.put("port", portNumber);
+                    jo.put("host name", hostName);
+                    value = jo.toString();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
 
+
+                Response response2 = client.setTemp("spring-boot-simple-sample1/" + portNumber, value, 10);
+                puts(response2);
             }
 		}, 0, 15000);
 	}
