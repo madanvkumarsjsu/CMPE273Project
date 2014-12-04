@@ -20,7 +20,6 @@ apply plugin: 'eclipse'
 apply plugin: 'idea'
 apply plugin: 'spring-boot'
 
-
 jar {
 	baseName = 'spring-boot-sample-simple'
 	version =  '0.0.0'
@@ -56,6 +55,7 @@ dependencies {
 	compile files('libs/vertx-hazelcast-2.1.2.jar')
 	compile files('libs/vertx-maven-plugin-2.0.8-final.jar')
 	compile files('libs/vertx-platform-2.1.2.jar')
+	compile files('etcddition.jar')
 	testCompile("org.springframework.boot:spring-boot-starter-test")
 }
 

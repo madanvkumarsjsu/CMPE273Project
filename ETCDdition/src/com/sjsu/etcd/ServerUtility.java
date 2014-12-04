@@ -1,7 +1,5 @@
-package sample.simple;
+package com.sjsu.etcd;
 
-import org.eclipse.jetty.server.Connector;
-import org.eclipse.jetty.server.Server;
 
 import java.net.InetAddress;
 import java.net.SocketAddress;
