@@ -20,6 +20,7 @@ apply plugin: 'eclipse'
 apply plugin: 'idea'
 apply plugin: 'spring-boot'
 
+
 jar {
 	baseName = 'spring-boot-sample-simple'
 	version =  '0.0.0'
@@ -44,6 +45,7 @@ dependencies {
     }
     compile("org.springframework.boot:spring-boot-starter-jetty")
     compile("org.springframework.boot:spring-boot-starter-actuator")
+    compile("org.json:json:20090211")
     compile files('libs/boon-0.29.jar')
     compile files('libs/BoonProject.jar')
 	compile files('libs/netty-all-4.0.23.Final.jar')
