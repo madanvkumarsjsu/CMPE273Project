@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<application name="sampleapplication" host="applicationhost" port="8080">
+<services count="1">
+<service name="database">
+<replica host="ds051740.mongolab.com" port="51740"></replica>
+<replica host="ds035750.mongolab.com" port="35750"></replica>
+</service>
+</services>
+</application>
