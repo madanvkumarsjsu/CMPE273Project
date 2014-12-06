@@ -41,6 +41,8 @@ public class ServicesGroup{
             else{
                 //make this service current leader
                currentLeader = service;
+               key = serviceDirectory+"/leader";
+               client.set(key, currentLeader);
                break;
             }
 
