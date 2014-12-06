@@ -28,24 +28,23 @@ public class ServicesGroup{
     public String electLeader(){
 
         Response response;
-        response = client.get(currentLeader);
-        if(response.node()== null){
-            //change leader
-            for (String service: serviceList){
-                response = client.get(service);
+        String key = null;
+        
+        for (String service: serviceList){
+        	
+        	key = serviceDirectory+"/"+service;
+            response = client.get(key);
 
-                if(response.node()== null){
-                   continue;
-                }
-                else{
-                    //make this service current leader
-                   currentLeader = service;
-                   break;
-                }
-
+            if(response.node()== null){
+               continue;
             }
-        }
+            else{
+                //make this service current leader
+               currentLeader = service;
+               break;
+            }
 
+        }
         return currentLeader;
 
     }
