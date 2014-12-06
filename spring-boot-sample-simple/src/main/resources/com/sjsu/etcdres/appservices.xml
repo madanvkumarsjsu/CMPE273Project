@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<application name="sampleapplication">
+	<services count="1">
+		<service name="database">
+			<replica id="1">
+				<host>myhost1</host>
+				<port>myport1</port>
+			</replica>
+			<replica id="2">
+				<host>myhost2</host>
+				<port>myport2</port>
+			</replica>
+		</service>
+	</services>
+</application>
