@@ -32,6 +32,8 @@ public class HeartBeat extends Thread {
 		this.strHostName		= strServiceHost;
 		this.strHostPort		= strServicePort;
 		this.strValue 			= generateValue();
+		System.out.println("key::::"+ strKey);
+		System.out.println("value::::"+ strValue);
 	}
 
 	private String generateValue(){
@@ -66,8 +68,16 @@ public class HeartBeat extends Thread {
 			public void run() {
 				boolean isAlive = ping(strHostName);
 				if(isAlive){
+					try{
+						System.out.println(strKey);
+						System.out.println(strValue);
 					response = client.setTemp(strKey,strValue,20);
 					puts(response);				
+					}
+					catch(Exception ex){
+						System.out.println("Exception in inserting configuration to ETCD"+ ex.getMessage());
+						ex.printStackTrace();
+					}
 				}
 			}
 		}, 0, 15000);

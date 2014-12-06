@@ -31,7 +31,9 @@ import org.springframework.core.io.Resource;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 
+import com.sjsu.etcd.EtcdInitializer;
 import com.sjsu.etcd.HeartBeat;
+import com.sjsu.etcd.ServiceXMLParser;
 
 @Configuration
 @EnableAutoConfiguration
@@ -45,28 +47,12 @@ public class SampleSimpleApplication {
 		Resource res = ctx.getResource("classpath:com/sjsu/etcdres/appservices.xml");
 		try {
 			System.out.println(res.getFile());
-			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-			Document doc = dBuilder.parse(res.getFile());
-		 
-			//optional, but recommended
-			//read this - http://stackoverflow.com/questions/13786607/normalization-in-dom-parsing-with-java-how-does-it-work
-			doc.getDocumentElement().normalize();
-		 
-			System.out.println("Root element :" + doc.getDocumentElement().getNodeName());
-			
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (SAXException e) {
-			e.printStackTrace();
-		} catch (ParserConfigurationException e) {
+			EtcdInitializer client = new EtcdInitializer("localhost");
+			ServiceXMLParser sxp = new ServiceXMLParser(client.getClient(),res.getFile());// for testing
+			sxp.parseServiceXML();	
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		Etcd client = ClientBuilder.builder().hosts(URI.create("http://localhost:4001")).createClient();
-		Response response = client.setTemp("application","mysampleapplication1",30);
-		HeartBeat hb = new HeartBeat("database");
-		hb.start();
-		
 	}
 
 }

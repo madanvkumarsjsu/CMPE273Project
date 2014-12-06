@@ -24,6 +24,7 @@ public class ServiceXMLParser {
 		this.client = client;
 		this.serviceConfFile = fServiceConfig;
 		this.client.createDir("applications");
+		System.out.println("file>>>"+this.serviceConfFile);
 	}
 
 	public ServiceXMLParser() {
@@ -44,8 +45,9 @@ public class ServiceXMLParser {
 			String strPort 		= doc.getDocumentElement().getAttribute("port");
 			System.out.println(strAppName+" "+strHostName+" "+strPort);
 			strApplicationName = strAppName;
-			HeartBeat appHB = new HeartBeat(client, strAppName, strHostName, strPort);
-			appHB.start();
+			client.createDir("applications/"+strApplicationName);
+			//HeartBeat appHB = new HeartBeat(client, strAppName, strHostName, strPort);
+			//appHB.start();
 
 			addChildServices(doc.getDocumentElement().getChildNodes());
 
@@ -67,6 +69,9 @@ public class ServiceXMLParser {
 			Node node = nlChildren.item(i);
 			if (node.getNodeType() == Node.ELEMENT_NODE) {
 				iReplicaCount++;
+				if("service".equalsIgnoreCase(node.getNodeName())){
+					client.createDir("applications/"+ strApplicationName +"/"+ node.getAttributes().getNamedItem("name").getNodeValue());
+				}
 				if("replica".equalsIgnoreCase(node.getNodeName())){
 					if(node.getAttributes().getNamedItem("host") != null && node.getAttributes().getNamedItem("port") != null){
 						if(node.getParentNode() != null && node.getParentNode().getAttributes().getNamedItem("name") != null){
@@ -85,10 +90,10 @@ public class ServiceXMLParser {
 	}
 
 	public static void main(String[] args) {
-		EtcdInitializer client = new EtcdInitializer("localhost");
-		ServiceXMLParser sxp = new ServiceXMLParser(client.getClient(),null);// for testing
-		sxp.serviceConfFile = new File("src/com/sjsu/etcd/appservices.xml");// for testing
-		sxp.parseServiceXML();// for testing
+//		EtcdInitializer client = new EtcdInitializer("localhost");
+//		ServiceXMLParser sxp = new ServiceXMLParser(client.getClient(),null);// for testing
+//		sxp.serviceConfFile = new File("src/com/sjsu/etcd/appservices.xml");// for testing
+//		sxp.parseServiceXML();// for testing
 	}
 
 }
