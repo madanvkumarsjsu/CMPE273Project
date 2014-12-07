@@ -60,6 +60,7 @@ public class HeartBeat extends Thread {
 
 	public void run(){
 
+		Response response = client.setTemp(strKey,strValue,15);
 		Timer timer = new Timer();
 		timer.schedule(new TimerTask() {
 
@@ -69,14 +70,22 @@ public class HeartBeat extends Thread {
 				boolean isAlive = ping(strHostName);
 				if(isAlive){
 					try{
-						System.out.println(strKey);
-						System.out.println(strValue);
-					response = client.setTemp(strKey,strValue,20);
-					puts(response);				
+						response = client.setTemp(strKey,strValue,20);
+						if(response != null)
+							puts(response);				
 					}
 					catch(Exception ex){
 						System.out.println("Exception in inserting configuration to ETCD"+ ex.getMessage());
 						ex.printStackTrace();
+					}
+				}
+				else{
+					String strDir = strKey.substring(0, strKey.lastIndexOf("/"));
+					String strReplica = strKey.substring(strKey.lastIndexOf("/")+1, strKey.length());
+					String strLeader = strDir+"/leader";
+					String strLeaderVal = client.get(strLeader).node().getValue();
+					if(strLeaderVal.equalsIgnoreCase(strReplica)){
+						ServiceXMLParser.hmService.get(strDir).electLeader();
 					}
 				}
 			}
@@ -104,7 +113,7 @@ public class HeartBeat extends Thread {
 				e.printStackTrace();
 			}
 		}
-
+		System.out.println(strServiceHost+">>>>isAlive>>>>"+isAlive);
 		return isAlive;
 
 	}

@@ -2,6 +2,8 @@ package com.sjsu.etcd;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -19,12 +21,14 @@ public class ServiceXMLParser {
 	File serviceConfFile;
 	Etcd client;
 	String strApplicationName = null;
+	ArrayList<String> alServiceList = null;
+	static HashMap<String, ServicesGroup> hmService = new HashMap<String, ServicesGroup>();
 
 	public ServiceXMLParser(Etcd client, File fServiceConfig) {
+		alServiceList = new ArrayList<String>();
 		this.client = client;
 		this.serviceConfFile = fServiceConfig;
 		this.client.createDir("applications");
-		System.out.println("file>>>"+this.serviceConfFile);
 	}
 
 	public ServiceXMLParser() {
@@ -38,12 +42,10 @@ public class ServiceXMLParser {
 			dBuilder = dbFactory.newDocumentBuilder();
 			doc = dBuilder.parse(serviceConfFile);
 			doc.normalize();//getDocumentElement().normalize();
-			System.out.println("Root element :" + doc.getDocumentElement().getNodeName());
 
 			String strAppName 	= doc.getDocumentElement().getAttribute("name");
 			String strHostName 	= doc.getDocumentElement().getAttribute("host");
 			String strPort 		= doc.getDocumentElement().getAttribute("port");
-			System.out.println(strAppName+" "+strHostName+" "+strPort);
 			strApplicationName = strAppName;
 			client.createDir("applications/"+strApplicationName);
 			//HeartBeat appHB = new HeartBeat(client, strAppName, strHostName, strPort);
@@ -65,25 +67,33 @@ public class ServiceXMLParser {
 
 	private void addChildServices(NodeList nlChildren ){
 		int iReplicaCount = 0;
+		String strPreviousService = "";
 		for (int i = 0; i < nlChildren.getLength(); i++){
 			Node node = nlChildren.item(i);
 			if (node.getNodeType() == Node.ELEMENT_NODE) {
 				iReplicaCount++;
 				if("service".equalsIgnoreCase(node.getNodeName())){
 					client.createDir("applications/"+ strApplicationName +"/"+ node.getAttributes().getNamedItem("name").getNodeValue());
+					strPreviousService = "applications/"+ strApplicationName +"/"+ node.getAttributes().getNamedItem("name").getNodeValue();
 				}
 				if("replica".equalsIgnoreCase(node.getNodeName())){
 					if(node.getAttributes().getNamedItem("host") != null && node.getAttributes().getNamedItem("port") != null){
 						if(node.getParentNode() != null && node.getParentNode().getAttributes().getNamedItem("name") != null){
 							String strServiceName = node.getParentNode().getAttributes().getNamedItem("name").getNodeValue();
 							HeartBeat serviceHB = new HeartBeat(client, strApplicationName+"/"+strServiceName+"/replica"+iReplicaCount, node.getAttributes().getNamedItem("host").getNodeValue(), node.getAttributes().getNamedItem("port").getNodeValue());
+							alServiceList.add("replica"+iReplicaCount);
 							serviceHB.start();
 						}
 					}
 				}
-
 				if(node.getChildNodes() != null){
 					addChildServices(node.getChildNodes());
+					if(alServiceList != null && alServiceList.size() > 0 && "service".equalsIgnoreCase(node.getNodeName())){
+						ServicesGroup sg = new ServicesGroup(client, strPreviousService, (ArrayList<String>)alServiceList.clone());
+						sg.electLeader();
+						hmService.put(strPreviousService, sg);
+						alServiceList.clear();
+					}
 				}
 			}
 		}
