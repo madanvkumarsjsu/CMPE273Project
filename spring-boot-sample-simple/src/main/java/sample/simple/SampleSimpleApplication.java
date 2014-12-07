@@ -43,16 +43,18 @@ public class SampleSimpleApplication {
 	
 	public static void main(String[] args) {
 		ApplicationContext ctx = SpringApplication.run(SampleSimpleApplication.class, args);
-		//File f = new File("src/main/resource/application.properties");
+		//ETCD configuration start
 		Resource res = ctx.getResource("classpath:com/sjsu/etcdres/appservices.xml");
 		try {
 			System.out.println(res.getFile());
 			EtcdInitializer client = new EtcdInitializer("localhost");
 			ServiceXMLParser sxp = new ServiceXMLParser(client.getClient(),res.getFile());// for testing
-			sxp.parseServiceXML();	
+			sxp.parseServiceXML();
+			client.getService(client.getClient(), sxp.getStrApplicationName(), "database");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		//ETCD configuration End
 	}
 
 }

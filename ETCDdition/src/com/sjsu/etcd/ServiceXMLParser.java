@@ -21,6 +21,15 @@ public class ServiceXMLParser {
 	File serviceConfFile;
 	Etcd client;
 	String strApplicationName = null;
+	public String getStrApplicationName() {
+		return strApplicationName;
+	}
+
+	public void setStrApplicationName(String strApplicationName) {
+		this.strApplicationName = strApplicationName;
+	}
+
+	String strEtcdAppPath = null;
 	ArrayList<String> alServiceList = null;
 	static HashMap<String, ServicesGroup> hmService = new HashMap<String, ServicesGroup>();
 
@@ -35,6 +44,7 @@ public class ServiceXMLParser {
 	}
 
 	public boolean parseServiceXML(){
+		boolean bParseSuccess = true;
 		DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder dBuilder;
 		Document doc = null;
@@ -47,22 +57,22 @@ public class ServiceXMLParser {
 			String strHostName 	= doc.getDocumentElement().getAttribute("host");
 			String strPort 		= doc.getDocumentElement().getAttribute("port");
 			strApplicationName = strAppName;
-			client.createDir("applications/"+strApplicationName);
-			//HeartBeat appHB = new HeartBeat(client, strAppName, strHostName, strPort);
-			//appHB.start();
+			strEtcdAppPath = "applications/"+strApplicationName;
+			client.createDir(strEtcdAppPath);
 
 			addChildServices(doc.getDocumentElement().getChildNodes());
 
 		} catch (ParserConfigurationException e) {
+			bParseSuccess = false;
 			e.printStackTrace();
 		} catch (SAXException e) {
+			bParseSuccess = false;
 			e.printStackTrace();
 		} catch (IOException e) {
+			bParseSuccess = false;
 			e.printStackTrace();
 		}
-
-
-		return false;
+		return bParseSuccess;
 	}
 
 	private void addChildServices(NodeList nlChildren ){
