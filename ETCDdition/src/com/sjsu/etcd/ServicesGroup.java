@@ -42,6 +42,9 @@ public class ServicesGroup{
                 //make this service current leader
                currentLeader = service;
                key = serviceDirectory+"/leader";
+               System.out.println(key);
+               System.out.println(currentLeader);
+               
                client.set(key, currentLeader);
                break;
             }
