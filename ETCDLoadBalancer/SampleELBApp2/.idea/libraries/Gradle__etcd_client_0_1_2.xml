@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Gradle: etcd-client-0.1.2">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.github.mlaccetti/etcd-client/0.1.2/a407587320792fd01c3f7b6a7876dbb5026beb9c/etcd-client-0.1.2.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.github.mlaccetti/etcd-client/0.1.2/9072c9a7e77591c32d051ecd54ea9560202dad8e/etcd-client-0.1.2-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

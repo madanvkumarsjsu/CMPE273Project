@@ -1,0 +1,63 @@
+buildscript {
+	ext {
+		springBootVersion = '1.2.0.BUILD-SNAPSHOT'
+	}
+	repositories {
+		// NOTE: You should declare only repositories that you need here
+		mavenLocal()
+		mavenCentral()
+		maven { url "http://repo.spring.io/release" }
+		maven { url "http://repo.spring.io/milestone" }
+		maven { url "http://repo.spring.io/snapshot" }
+	}
+	dependencies {
+		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+	}
+}
+
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'idea'
+apply plugin: 'spring-boot'
+
+jar {
+	baseName = 'loadbalance'
+	version =  '1.0.0'
+}
+
+run {
+  systemProperties = System.properties
+}
+
+repositories {
+	// NOTE: You should declare only repositories that you need here
+	mavenLocal()
+	mavenCentral()
+	maven { url "http://repo.spring.io/release" }
+	maven { url "http://repo.spring.io/milestone" }
+	maven { url "http://repo.spring.io/snapshot" }
+}
+
+dependencies {
+    compile("org.springframework.boot:spring-boot-starter-web") {
+        exclude module: "spring-boot-starter-tomcat"
+    }
+    compile("org.springframework.boot:spring-boot-starter-jetty")
+    compile("org.springframework.boot:spring-boot-starter-actuator")
+    compile("org.json:json:20090211")
+	compile files('libs/boon-0.29.jar')
+	compile files('libs/BoonProject.jar')
+	compile files('libs/netty-all-4.0.23.Final.jar')
+	compile files('libs/netty-all-5.0.0.Alpha1.jar')
+	compile files('libs/netty-common-4.0.4.final.jar')
+	compile files('libs/testtools-2.0.3-final.jar')
+	compile files('libs/vertx-core-2.1.2.jar')
+	compile files('libs/vertx-hazelcast-2.1.2.jar')
+	compile files('libs/vertx-maven-plugin-2.0.8-final.jar')
+	compile files('libs/vertx-platform-2.1.2.jar')
+	testCompile("org.springframework.boot:spring-boot-starter-test")
+}
+
+task wrapper(type: Wrapper) {
+	gradleVersion = '2.1'
+}
