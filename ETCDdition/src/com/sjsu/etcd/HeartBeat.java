@@ -97,7 +97,7 @@ public class HeartBeat extends Thread {
 		boolean isAlive = false;
 		if(strServiceHost != null && !"".equalsIgnoreCase(strServiceHost)){
 			try {
-				Process ping = Runtime.getRuntime().exec("ping " + strServiceHost);
+				Process ping = Runtime.getRuntime().exec("ping " + strServiceHost+" -c 4");
 				BufferedReader br = new BufferedReader(new InputStreamReader(ping.getInputStream()));
 				StringBuilder sb = new StringBuilder();
 				String line;
@@ -105,7 +105,7 @@ public class HeartBeat extends Thread {
 					sb.append(line);
 					sb.append("\n");
 				}
-				if(sb.toString().indexOf("Reply") != -1){
+				if(sb.toString().indexOf("0% packet loss") != -1){
 					System.out.println(sb.toString());
 					isAlive = true;
 				}			
