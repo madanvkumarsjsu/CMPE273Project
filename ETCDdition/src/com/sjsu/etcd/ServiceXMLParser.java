@@ -1,5 +1,6 @@
 package com.sjsu.etcd;
 
+import static org.boon.Boon.puts;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -10,6 +11,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.boon.etcd.Etcd;
+import org.boon.etcd.Response;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -76,6 +78,7 @@ public class ServiceXMLParser {
 	}
 
 	private void addChildServices(NodeList nlChildren ){
+		try{
 		int iReplicaCount = 0;
 		String strPreviousService = "";
 		for (int i = 0; i < nlChildren.getLength(); i++){
@@ -106,6 +109,11 @@ public class ServiceXMLParser {
 					}
 				}
 			}
+		}
+		}
+		catch(Exception ex){
+			System.out.println("Exception in addChildServices::::::"+ex.getMessage());
+			ex.printStackTrace();
 		}
 	}
 

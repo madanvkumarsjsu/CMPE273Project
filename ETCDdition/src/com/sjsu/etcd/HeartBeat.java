@@ -5,11 +5,10 @@ import static org.boon.Boon.puts;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.URI;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import org.boon.etcd.ClientBuilder;
+import org.boon.core.Handler;
 import org.boon.etcd.Etcd;
 import org.boon.etcd.Response;
 import org.json.JSONException;
@@ -57,22 +56,19 @@ public class HeartBeat extends Thread {
 	//		puts(response);
 	//	}
 
-
 	public void run(){
 
-		Response response = client.setTemp(strKey,strValue,15);
+		try{
+		client.setTemp(strKey, strValue, 15);
 		Timer timer = new Timer();
 		timer.schedule(new TimerTask() {
 
-			Response response = null;
 			@Override
 			public void run() {
 				boolean isAlive = ping(strHostName);
 				if(isAlive){
 					try{
-						response = client.setTemp(strKey,strValue,20);
-						if(response != null)
-							puts(response);				
+						client.setTemp(strKey,strValue,20);
 					}
 					catch(Exception ex){
 						System.out.println("Exception in inserting configuration to ETCD"+ ex.getMessage());
@@ -90,6 +86,11 @@ public class HeartBeat extends Thread {
 				}
 			}
 		}, 0, 15000);
+		}
+		catch(Exception ex){
+			System.out.println("Exception in Heartbeat:::::"+ex.getMessage());
+			ex.printStackTrace();
+		}
 	}
 
 	private boolean ping(String strServiceHost){
@@ -108,8 +109,8 @@ public class HeartBeat extends Thread {
 					System.out.println(sb.toString());
 					isAlive = true;
 				}			
-			} catch (IOException e) {
-				System.out.println("HeartBeat:::Exception in heartbeat execution. Check host name");
+			} catch (Exception e) {
+				System.out.println("HeartBeat:::Exception in heartbeat execution. Check host name::::"+e.getMessage());
 				e.printStackTrace();
 			}
 		}
