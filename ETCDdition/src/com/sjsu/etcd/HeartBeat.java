@@ -105,7 +105,7 @@ public class HeartBeat extends Thread {
 					sb.append(line);
 					sb.append("\n");
 				}
-				if(sb.toString().indexOf("0% packet loss") != -1){
+				if(sb.toString().indexOf("0% packet loss") != -1 && sb.toString().indexOf("0 received") == -1){
 					System.out.println(sb.toString());
 					isAlive = true;
 				}			
