@@ -2,9 +2,12 @@
 <application name="sampleapplication" host="applicationhost" port="8080">
 <services>
 <service name="database">
-<replica host="54.219.145.85" port="61360"></replica>
-<replica host="54.67.74.38" port="51740"></replica>
-<replica host="ds035750.mongolab.com" port="35750"></replica>
+<replica host="54.67.97.145" port="61360"></replica>
+<replica host="54.67.53.26" port="51740"></replica>
+</service>
+<service name="service1">
+<replica host="54.67.126.11" port="8080"></replica>
+<replica host="54.67.25.24" port="8080"></replica>
 </service>
 </services>
 </application>
