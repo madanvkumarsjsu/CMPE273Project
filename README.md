@@ -18,10 +18,15 @@ Sample xml file for clients registering to the service
 <?xml version="1.0" encoding="UTF-8"?>
 <application name="sampleapplication" host="applicationhost" port="8080">
 <services>
-<service name="database">
-<replica host="ip_address" port="port_num"></replica>
-<replica host="ip_address" port="port_num"></replica>
-<replica host="ip_address" port="port_num"></replica>
+<service name="service_name1">
+<replica host="hostname" port="port_num"></replica>
+<replica host="hostname" port="port_num"></replica>
+<replica host="hostname" port="port_num"></replica>
+</service>
+<service name="service_name2">
+<replica host="hostname" port="port_num"></replica>
+<replica host="hostname" port="port_num"></replica>
+<replica host="hostname" port="port_num"></replica>
 </service>
 </services>
 </application>
