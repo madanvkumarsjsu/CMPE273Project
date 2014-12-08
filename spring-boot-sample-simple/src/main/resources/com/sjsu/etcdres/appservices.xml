@@ -2,12 +2,12 @@
 <application name="sampleapplication" host="applicationhost" port="8080">
 <services>
 <service name="database">
-<replica host="54.67.97.145" port="61360"></replica>
-<replica host="54.67.53.26" port="51740"></replica>
+<replica host="54.67.84.199" port="61360"></replica>
+<replica host="54.67.85.16" port="51740"></replica>
 </service>
 <service name="service1">
-<replica host="54.67.126.11" port="8080"></replica>
-<replica host="54.67.25.24" port="8080"></replica>
+<replica host="54.67.31.19" port="8080"></replica>
+<replica host="54.67.31.233" port="8080"></replica>
 </service>
 </services>
 </application>
