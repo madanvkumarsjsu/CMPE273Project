@@ -41,10 +41,10 @@ public class Srvlt extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		 Etcd client = ClientBuilder.builder().hosts(
-	             URI.create("http://localhost:4001")
+	             URI.create("http://54.183.207.115:4001")
 	     ).createClient();
 		 
-		 Response resp = client.listRecursive("application");
+		 Response resp = client.listRecursive("applications");
 	    	
 	    	
 	    	Map<String, String> map = new HashMap<String,String>();
@@ -56,8 +56,6 @@ public class Srvlt extends HttpServlet {
 	    	ArrayList<String> listStop = new ArrayList<String>();
 	    	
 	    	ArrayList<String> listStopFormat = new ArrayList<String>();
-	    	
-	    	ArrayList<Integer> intArray = new ArrayList<Integer>();
 	    		
 	    	ArrayList<String> TreeRun = new ArrayList<String>();
 	    	
@@ -69,26 +67,50 @@ public class Srvlt extends HttpServlet {
 	    	
 	    	for (int i=0;i<nodesList.size();i++) {
 	    		Node a = nodesList.get(i);
+	    		try {
 	    		List<Node> nodesListA = a.getNodes();
 	    		listTree.add(a.key());
 	    		listRun.add(a.key());
 	    		for(int j=0;j<nodesListA.size();j++) {
 	    			Node s = nodesListA.get(j);
+	    			try {
 	    			List<Node> nodesListS = s.getNodes();
 	    			listTree.add(s.key());
 	    			listRun.add(s.key());
 	    			for(int k=0;k<nodesListS.size();k++) {
 	    				Node r = nodesListS.get(k);
+	    				try {
 	    				List<Node> nodesListR = r.getNodes();
 	    				listTree.add(r.key());
 	    				listRun.add(r.key());
 	    				for(int l =0;l<nodesListR.size();l++) {
+	    					try {
 	        					map.put(nodesListR.get(l).key(), nodesListR.get(l).getValue());
 	        					String keyVal = (nodesListR.get(l).key()+" = "+ nodesListR.get(l).getValue());
 	        					listTree.add(keyVal);
+	    					}
+	    					catch(Exception e)
+	    					{
+	    						System.out.println("No properties! Can not get values");
+	    					}
 	        				}
 	    				}
+	    				catch(Exception e)
+	    				{
+	    					System.out.println("No properties for"+r.key());
+	    				}
+	    				}
 	    			}
+	    			catch(Exception e)
+					{
+	    				System.out.println("No replicas for"+s.key());
+					}
+	    			}
+	    		}
+	    		catch(Exception e)
+				{
+	    			System.out.println("No services for"+a.key());
+				}
 	    		}
 	    	
 /*	    for( Iterator entries = map.entrySet().iterator(); entries.hasNext();){
@@ -193,15 +215,22 @@ public class Srvlt extends HttpServlet {
 		   //Formatting to form stop tree
 		    	
 		    	for (String s:listStop) {
+			    	ArrayList<Integer> intArray = new ArrayList<Integer>();
 					int i = s.indexOf('/');
 					while(i>=0){
 						intArray.add(i);
 						i = s.indexOf('/',i+1);
 					}
-						for(int k=2;k<intArray.size();k++)
-					listStopFormat.add(s.substring(intArray.get(0), intArray.get(k)));
+						String tempStr = "";
+						for(int k=2;k<intArray.size();k++) {
+							tempStr = s.substring(intArray.get(0), intArray.get(k));
+						}
+						if(!(listStopFormat.contains(tempStr)))
+						listStopFormat.add(tempStr); 
+						if(!(listStopFormat.contains(s)))
 						listStopFormat.add(s);
-				}
+				
+		    	}
 		    	
 		//To represent Stopped services in a tree structure
 		
@@ -210,7 +239,7 @@ public class Srvlt extends HttpServlet {
 		    		return o1.compareTo(o2);
 		    		}
 		    		});
-
+			 
 		    	for(String s:listStopFormat){
 		    		int length = s.split("/").length - 1;
 		    		StringBuilder sb = new StringBuilder();
@@ -219,7 +248,6 @@ public class Srvlt extends HttpServlet {
 		    			sb.append("&nbsp;"+"_");
 		    		String look = sb.toString();
 		    		int c = look.lastIndexOf('_');
-		    		
 		    		look=look.substring(0,c-1) +"|__"+look.substring(c);
 					int index2 = s.lastIndexOf('/');
 					String str = s.substring(index2+1);
