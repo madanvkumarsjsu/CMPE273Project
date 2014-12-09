@@ -18,6 +18,12 @@ Sample xml file for clients registering to the service
 
 ### sample document
 
+<item reference="RF-0001">
+        <Description>Stuffed Penguin</Description>
+        <Quantity>10</Quantity>
+        <UnitPrice>42.23</UnitPrice>
+    </item>
+
 <?xml version="1.0" encoding="UTF-8"?>
 <application name="sampleapplication" host="applicationhost" port="8080">
 <services>
