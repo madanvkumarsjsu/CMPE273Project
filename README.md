@@ -18,7 +18,7 @@ Sample xml file for clients registering to the service
 
 ### sample document
 
-<item reference="RF-0001">
+    <item reference="RF-0001">
         <Description>Stuffed Penguin</Description>
         <Quantity>10</Quantity>
         <UnitPrice>42.23</UnitPrice>
