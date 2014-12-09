@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Gradle: spring-core-4.1.3.BUILD-SNAPSHOT">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.springframework/spring-core/4.1.3.BUILD-SNAPSHOT/45b5f2da20d44344c1ed92fa74c035483803e16b/spring-core-4.1.3.BUILD-SNAPSHOT.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.springframework/spring-core/4.1.3.BUILD-SNAPSHOT/125d0e6031c69b2a6896142364e8d606d776034d/spring-core-4.1.3.BUILD-SNAPSHOT-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
