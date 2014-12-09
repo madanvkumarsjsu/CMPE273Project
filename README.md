@@ -17,7 +17,7 @@ eg. for service replica1, key is applications/sampleapplication/database/replica
 Sample xml file for clients registering to the service
 
     <?xml version="1.0" encoding="UTF-8"?>
-    <application name="sampleapplication" host="applicationhost" port="8080">
+    <application name="sampleapplication" host="applicationhost" port="applicationport">
     <services>
     <service name="service_name1">
     <replica host="hostname" port="port_num"></replica>
