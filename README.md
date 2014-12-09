@@ -16,26 +16,18 @@ eg. for service replica1, key is applications/sampleapplication/database/replica
 
 Sample xml file for clients registering to the service
 
-### sample document
-
-    <item reference="RF-0001">
-        <Description>Stuffed Penguin</Description>
-        <Quantity>10</Quantity>
-        <UnitPrice>42.23</UnitPrice>
-    </item>
-
-<?xml version="1.0" encoding="UTF-8"?>
-<application name="sampleapplication" host="applicationhost" port="8080">
-<services>
-<service name="service_name1">
-<replica host="hostname" port="port_num"></replica>
-<replica host="hostname" port="port_num"></replica>
-<replica host="hostname" port="port_num"></replica>
-</service>
-<service name="service_name2">
-<replica host="hostname" port="port_num"></replica>
-<replica host="hostname" port="port_num"></replica>
-<replica host="hostname" port="port_num"></replica>
-</service>
-</services>
-</application>
+    <?xml version="1.0" encoding="UTF-8"?>
+    <application name="sampleapplication" host="applicationhost" port="8080">
+    <services>
+    <service name="service_name1">
+    <replica host="hostname" port="port_num"></replica>
+    <replica host="hostname" port="port_num"></replica>
+    <replica host="hostname" port="port_num"></replica>
+    </service>
+    <service name="service_name2">
+    <replica host="hostname" port="port_num"></replica>
+    <replica host="hostname" port="port_num"></replica>
+    <replica host="hostname" port="port_num"></replica>
+    </service>
+    </services>
+    </application>
