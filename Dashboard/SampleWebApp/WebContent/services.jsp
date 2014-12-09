@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ page import="java.io.*,java.util.*" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html lang="en">
   <head>
@@ -40,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="">Etcd Service Registry</a>
+          <a class="navbar-brand" href="index.jsp">Etcd Service Registry</a>
         </div>
         <div id="navbar" class="collapse navbar-collapse">
           <ul class="nav navbar-nav">
@@ -55,9 +57,57 @@
     <div class="container">
 
       <div class="starter-template">
-        <h1>Etcd Service Registry</h1>
-        <p class="lead">A highly available key value store for shared configuration and Service discovery .<br><i> Simple, Secure, Fast and Reliable.</i></p>
-      </div>
+        <h1>Services</h1>
+        <!--  
+        <Table class = "table">
+        <thead>
+    		<tr>
+        		<th>Key</th>
+        		<th>Value</th>
+    		</tr>
+    	</thead>
+    	<tbody>  
+		<c:forEach var="entry" items="${map}">
+			<tr>
+    			<td>${entry.key}</td>
+    			<td>${entry.value}</td>   	
+			</tr>
+		</c:forEach>
+		</tbody>
+		</Table> 
+		-->
+		
+		<div id ="content" align = left>
+		<h3>Running Services</h3>
+		<c:forEach var="entry" items="${TreeRun}">
+			${entry} <br>
+		</c:forEach>
+		</div>
+		
+		<div id ="content" align = left>
+		<h3>Stopped Services</h3>
+		<c:forEach var="entry" items="${TreeStop}">
+			${entry} <br>
+		</c:forEach>
+		</div>
+		
+		<!--  
+		<Table class = "table">
+        <thead>
+    		<tr>
+        		<th>Stopped Services</th>
+    		</tr>
+    	</thead>
+    	<tbody>  
+		<c:forEach var="entry" items="${stopList}">
+			<tr>
+    			<td>${entry}</td> 	
+			</tr>
+		</c:forEach>
+		</tbody>
+		</Table> 
+		-->
+        </div>
 
     </div><!-- /.container -->
 
