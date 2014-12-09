@@ -187,6 +187,7 @@ public class Srvlt extends HttpServlet {
 					listAll.add(listRun.get(i)); 
 				 }
 			 }
+			 client.set("All",listAll.toString());
 			//To represent running services in a tree structure
 		    	
 		    	Collections.sort(listTree, new Comparator<String>(){
