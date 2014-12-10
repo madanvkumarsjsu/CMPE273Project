@@ -72,16 +72,7 @@
 	<classpathentry exported="true" kind="lib" path="C:/Users/Madan/.gradle/caches/modules-2/files-2.1/org.eclipse.jetty/jetty-jndi/9.2.4.v20141103/833ebafd9aac102c8b92c5075e9bea7a0debc825/jetty-jndi-9.2.4.v20141103.jar" sourcepath="C:/Users/Madan/.gradle/caches/modules-2/files-2.1/org.eclipse.jetty/jetty-jndi/9.2.4.v20141103/a686c777c9422197b5d9ad02b7f1d6d870702a9f/jetty-jndi-9.2.4.v20141103-sources.jar"/>
 	<classpathentry exported="true" kind="lib" path="C:/Users/Madan/.gradle/caches/modules-2/files-2.1/org.ow2.asm/asm-tree/5.0.1/1b1e6e9d869acd704056d0a4223071a511c619e6/asm-tree-5.0.1.jar" sourcepath="C:/Users/Madan/.gradle/caches/modules-2/files-2.1/org.ow2.asm/asm-tree/5.0.1/78ebb2694324283f3120aa3ed52465b22fab8a4a/asm-tree-5.0.1-sources.jar"/>
 	<classpathentry exported="true" kind="lib" path="C:/Users/Madan/.gradle/caches/modules-2/files-2.1/org.glassfish/javax.el/3.0.1-b05/e2636f8692ca777408892ba24300ad8645543d84/javax.el-3.0.1-b05.jar" sourcepath="C:/Users/Madan/.gradle/caches/modules-2/files-2.1/org.glassfish/javax.el/3.0.1-b05/d38be222bc7343f85523d2f7c49021638ba20325/javax.el-3.0.1-b05-sources.jar"/>
-	<classpathentry exported="true" kind="lib" path="D:/Madan/Git_Hub/CMPE273Project/spring-boot-sample-simple/libs/etcddition.jar"/>
-	<classpathentry kind="lib" path="D:/Madan/Git_Hub/CMPE273Project/spring-boot-sample-simple/libs/boon-0.29.jar"/>
-	<classpathentry kind="lib" path="D:/Madan/Git_Hub/CMPE273Project/spring-boot-sample-simple/libs/BoonProject.jar"/>
-	<classpathentry kind="lib" path="D:/Madan/Git_Hub/CMPE273Project/spring-boot-sample-simple/libs/netty-all-4.0.23.Final.jar"/>
-	<classpathentry kind="lib" path="D:/Madan/Git_Hub/CMPE273Project/spring-boot-sample-simple/libs/netty-all-5.0.0.Alpha1.jar"/>
-	<classpathentry kind="lib" path="D:/Madan/Git_Hub/CMPE273Project/spring-boot-sample-simple/libs/netty-common-4.0.4.final.jar"/>
-	<classpathentry kind="lib" path="D:/Madan/Git_Hub/CMPE273Project/spring-boot-sample-simple/libs/testtools-2.0.3-final.jar"/>
-	<classpathentry kind="lib" path="D:/Madan/Git_Hub/CMPE273Project/spring-boot-sample-simple/libs/vertx-core-2.1.2.jar"/>
-	<classpathentry kind="lib" path="D:/Madan/Git_Hub/CMPE273Project/spring-boot-sample-simple/libs/vertx-hazelcast-2.1.2.jar"/>
-	<classpathentry kind="lib" path="D:/Madan/Git_Hub/CMPE273Project/spring-boot-sample-simple/libs/vertx-maven-plugin-2.0.8-final.jar"/>
-	<classpathentry kind="lib" path="D:/Madan/Git_Hub/CMPE273Project/spring-boot-sample-simple/libs/vertx-platform-2.1.2.jar"/>
+	<classpathentry kind="lib" path="D:/Madan/Git_Hub/CMPE273Project/spring-boot-sample-simple/libs/etcddition.jar"/>
+	<classpathentry kind="lib" path="D:/Madan/Git_Hub/CMPE273Project/spring-boot-sample-simple/libs/etcdditionlibrary.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
