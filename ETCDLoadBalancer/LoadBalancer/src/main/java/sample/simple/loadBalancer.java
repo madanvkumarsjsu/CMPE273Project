@@ -19,25 +19,42 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.beans.factory.annotation.*;
+import org.springframework.stereotype.*;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.annotation.ComponentScan;
+import javax.annotation.PostConstruct;
 
 import org.json.JSONObject;
 import java.util.*;
 import java.io.*;
 
-
+@Component
 @Controller
 @RequestMapping("/v1/api")
 public class loadBalancer{
 
 	Etcd client; 
 	ConcurrentLinkedQueue<String> serverQueue;
+  //String servicePath;
+  //configBean config;
 
-	loadBalancer() {
+  @Value("${servicePath}")
+  private String servicePath;
+  @Value("${etcdHost}")
+  private String etcdHost;
+
+  @PostConstruct
+	public void initialzeLB() {
 		System.out.println("inside loadbalancer");
 		Response response;
 		client = ClientBuilder.builder().hosts(
-				URI.create("http://localhost:4001")).createClient();
+				URI.create(etcdHost)).createClient();
 		serverQueue = new ConcurrentLinkedQueue<String>();
+    //config = new configBean();
+    //this.servicePath = config.getServicePath();
+    System.out.println("service path:"+servicePath);
 	}
 
 
@@ -46,7 +63,7 @@ public class loadBalancer{
 		String nextServer = null;
 		String strKey = null;
 		ResponseEntity<String> result=null;
-		Response response = client.listRecursive("Services");
+		Response response = client.listRecursive(servicePath);
 		puts(response);
 		List<Node> activeNodes = response.node().getNodes();
 		System.out.println("activeNodes>>>>>"+activeNodes);
@@ -86,7 +103,7 @@ public class loadBalancer{
 			JSONObject server = new JSONObject(serverAddr);
 			System.out.println(server);
 
-			String url_string = "http://"+server.getString("hostname")+":"+server.getString("port") + "/count";
+			String url_string = "http://"+server.getString("hostname")+":"+server.getString("port");
 			System.out.println(url_string);
 
 			RestTemplate restTemplate = new RestTemplate();

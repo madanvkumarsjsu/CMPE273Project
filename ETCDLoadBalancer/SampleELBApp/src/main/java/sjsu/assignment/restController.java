@@ -19,51 +19,53 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.json.JSONObject;
+import org.springframework.stereotype.*;
+import org.springframework.beans.factory.annotation.*;
+import javax.annotation.PostConstruct;
 
+@Component
 @Controller
-@RequestMapping("/count")
+@RequestMapping("/")
 public class restController {
 
-    Etcd client;        
-    restController(){
+    Etcd client;
+    etcdClientTimer timer;    
+    @Value("${hostName}")
+    private String hostName;
+    @Value("${port}")
+    private String port;
+    @Value("${serviceName}")
+    String serviceName;
+    @Value("${servicePath}")
+    private String servicePath;
+    @Value("${etcdHost}")
+    private String etcdHost;
+
+    @PostConstruct
+    public void initializeApp(){
         Response response;
 
         JSONObject jo = new JSONObject();
-        try{jo.put("hostname", "127.0.0.1");
-        jo.put("port", "8081");
+        try{jo.put("hostname", hostName);
+        jo.put("port", port);
         }catch(Exception e){
 
         }
-
+      
         client = ClientBuilder.builder().hosts(
-                URI.create("http://localhost:4001")
+                URI.create(etcdHost)
         ).createClient();
-
-        response = client.createDir("Services");
-        response = client.setIfNotExists("Services/service1", jo.toString());
-
-        //puts(response);
-
-
-        //response = client.get("count");
-
-        //puts(response);
+        System.out.println("hostname:" + hostName + " port:" + port + " Servicename:" + serviceName + " Service path:" + servicePath);
+        response = client.createDir(servicePath);
+        puts(response);
+        timer = new etcdClientTimer(serviceName,jo.toString(),servicePath,client);
+        timer.Start();        
     }
 
     @RequestMapping(method=RequestMethod.GET)
     public @ResponseBody String getCount(){
-          System.out.println("Success");
-        return("Success");
-       /* int count;
-        Response response = client.get("count");
-        count = Integer.parseInt(response.node().getValue());
-        count++;
-        System.out.println("Count:" + count);
-        client.set("count",Integer.toString(count));
-        Response result = client.get("count");
-        puts(result);
-        return(result.node().getValue());
-      */
+          System.out.println("Success from:"+ serviceName + "\n");
+        return("Success from:"+serviceName);
     }
 
 }
