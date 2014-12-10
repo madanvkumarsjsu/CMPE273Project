@@ -48,11 +48,12 @@ Sample xml file for clients registering to the service
 
 
 2. Include etcddition.jar and etcdditionlibrary.jar in you application build path
-        
+---------------------------------------------------------------------------
 	EtcdInitializer client = new EtcdInitializer("localhost");//specify the etcd host running in a cluster
 	ServiceXMLParser sxp = new ServiceXMLParser(client.getClient(),res.getFile());// Create a reference for file and send it to the ServiceXMLParser class
 	sxp.parseServiceXML();//Call ParseServiceXML to initiate the service registration and election
-
+---------------------------------------------------------------------------
 Use the below method to get the leader of the service among the replicas
+---------------------------------------------------------------------------
 	client.getService(client.getClient(), sxp.getStrApplicationName(), "database");
 
