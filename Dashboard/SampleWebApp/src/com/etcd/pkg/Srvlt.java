@@ -19,6 +19,8 @@ import org.boon.etcd.Response;
 import java.net.URI;
 import java.util.*;
 
+import org.json.*;
+
 
 /**
  * Servlet implementation class Srvlt
@@ -41,10 +43,11 @@ public class Srvlt extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		 Etcd client = ClientBuilder.builder().hosts(
-	             URI.create("http://54.183.207.115:4001")
+//	             URI.create("http://54.149.70.109:4001")
+	              URI.create("http://127.0.0.1:4001")
 	     ).createClient();
 		 
-		 Response resp = client.listRecursive("applications");
+		 Response resp = client.listRecursive("application");
 	    	
 	    	
 	    	Map<String, String> map = new HashMap<String,String>();
@@ -65,7 +68,7 @@ public class Srvlt extends HttpServlet {
 	    	
 	    	//Parsing etcd 
 	    	
-	    	for (int i=0;i<nodesList.size();i++) {
+/*	    	for (int i=0;i<nodesList.size();i++) {
 	    		Node a = nodesList.get(i);
 	    		try {
 	    		List<Node> nodesListA = a.getNodes();
@@ -112,7 +115,57 @@ public class Srvlt extends HttpServlet {
 	    			System.out.println("No services for"+a.key());
 				}
 	    		}
+	    */
+	    	for (int i=0;i<nodesList.size();i++) {
+	    		Node a = nodesList.get(i);
+	    		try {
+	    		List<Node> nodesListA = a.getNodes();
+	    		listTree.add(a.key());
+	    		listRun.add(a.key());
+	    		for(int j=0;j<nodesListA.size();j++) {
+	    			Node s = nodesListA.get(j);
+	    			try {
+	    			List<Node> nodesListS = s.getNodes();
+	    			listTree.add(s.key());
+	    			listRun.add(s.key());
+	    			for(int l =0;l<nodesListS.size();l++) {
+    					try {    						
+    						String lkey = nodesListS.get(l).key();
+    						int index1 = lkey.lastIndexOf('/');
+    						lkey = lkey.substring(index1+1);
+    						if(lkey.equals("leader")){
+    							String keyVal = (nodesListS.get(l).key()+" = "+ nodesListS.get(l).getValue());
+    							listTree.add(keyVal); }
+    						else {
+    							String jsonString = nodesListS.get(l).getValue();
+    							JSONObject jobj = new JSONObject(jsonString);
+    							listTree.add(nodesListS.get(l).key());
+    							listTree.add((nodesListS.get(l).key())+"/AppName"+" = "+((String)jobj.get("AppName")));
+    							listTree.add((nodesListS.get(l).key())+"/port"+" = "+Integer.toString((Integer)jobj.get("port")));
+    							listTree.add((nodesListS.get(l).key())+"/HostName"+" = "+((String)jobj.get("HostName")));
+    						}
+    						listRun.add(nodesListS.get(l).key());	
+    					}
+    					catch(Exception e)
+    					{
+    						System.out.println("No properties! Can not get values");
+    					}
+	    				
+	        		}	    				
+	    			}
+	    			catch(Exception e)
+					{
+	    				System.out.println("No replicas for"+s.key());
+					}
+	    		}
+	    		}
+	    		catch(Exception e)
+				{
+	    			System.out.println("No services for"+a.key());
+				}
+	    	}
 	    	
+	//    	client.set("All", listRun.toString());
 /*	    for( Iterator entries = map.entrySet().iterator(); entries.hasNext();){
 
 		    Entry entry = (Entry) entries.next();
@@ -152,8 +205,8 @@ public class Srvlt extends HttpServlet {
 			 else {
 				AllList.add(runList.get(i)); 
 			 }
-		 }
-	*/	
+		 } */
+		
 	    	Response getAll = client.get("All");	
 			 String AllVal = getAll.node().getValue();		 
 			 String[] alist = AllVal.split(",");
@@ -186,8 +239,9 @@ public class Srvlt extends HttpServlet {
 				 else {
 					listAll.add(listRun.get(i)); 
 				 }
-			 }
+			 } 	
 			 client.set("All",listAll.toString());
+		 
 			//To represent running services in a tree structure
 		    	
 		    	Collections.sort(listTree, new Comparator<String>(){

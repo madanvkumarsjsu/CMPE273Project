@@ -83,7 +83,7 @@
 			${entry} <br>
 		</c:forEach>
 		</div>
-		
+  		
 		<div id ="content" align = left>
 		<h3>Stopped Services</h3>
 		<c:forEach var="entry" items="${TreeStop}">
