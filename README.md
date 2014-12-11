@@ -57,3 +57,7 @@ Use the below method to get the leader of the service among the replicas
 ---------------------------------------------------------------------------
 	client.getService(client.getClient(), sxp.getStrApplicationName(), "database");
 
+-----------------------------------------------------------------------------
+Service Discovery module:
+This module provides a rest service through which client applications can access the data related to services registered in the etcd Cluster
+
