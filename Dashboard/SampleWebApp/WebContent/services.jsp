@@ -58,24 +58,6 @@
 
       <div class="starter-template">
         <h1>Services</h1>
-        <!--  
-        <Table class = "table">
-        <thead>
-    		<tr>
-        		<th>Key</th>
-        		<th>Value</th>
-    		</tr>
-    	</thead>
-    	<tbody>  
-		<c:forEach var="entry" items="${map}">
-			<tr>
-    			<td>${entry.key}</td>
-    			<td>${entry.value}</td>   	
-			</tr>
-		</c:forEach>
-		</tbody>
-		</Table> 
-		-->
 		
 		<div id ="content" align = left>
 		<h3>Running Services</h3>
@@ -90,23 +72,7 @@
 			${entry} <br>
 		</c:forEach>
 		</div>
-		
-		<!--  
-		<Table class = "table">
-        <thead>
-    		<tr>
-        		<th>Stopped Services</th>
-    		</tr>
-    	</thead>
-    	<tbody>  
-		<c:forEach var="entry" items="${stopList}">
-			<tr>
-    			<td>${entry}</td> 	
-			</tr>
-		</c:forEach>
-		</tbody>
-		</Table> 
-		-->
+		 		
         </div>
 
     </div><!-- /.container -->
